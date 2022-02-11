@@ -1,0 +1,21 @@
+.wrapper {
+  display: flex;
+  flex-direction: table-row;
+}
+
+.wrapper-content {
+  width: 100%;
+  padding: 10px;
+  // transition: theme.transitions.create('margin', {
+  //   easing: theme.transitions.easing.sharp,
+  //   duration: theme.transitions.duration.leavingScreen,
+  // }),
+}
+
+.shift-left {
+  margin-left: -240px;
+  // transition: theme.transitions.create('margin', {
+  //   easing: theme.transitions.easing.easeOut,
+  //   duration: theme.transitions.duration.leavingScreen,
+  // }),
+}
