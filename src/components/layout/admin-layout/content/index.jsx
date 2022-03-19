@@ -1,8 +1,8 @@
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import Header from './../header';
-import SideBar from './../side-bar';
+import Header from '../header';
+import SideBar from '../side-bar';
 import './styles.scss';
 
 Content.propTypes = {

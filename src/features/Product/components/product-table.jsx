@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import {
-  TableContainer,
-  Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
   Box,
+  Button,
   Dialog,
-  DialogTitle,
+  DialogActions,
   DialogContent,
   DialogContentText,
-  DialogActions,
+  DialogTitle,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
 } from '@material-ui/core';
-import { Button } from 'reactstrap';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
 ProductTable.propTypes = {
   productList: PropTypes.array,

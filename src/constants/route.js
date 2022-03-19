@@ -1,8 +1,8 @@
 import React from 'react';
-import Product from '../features/Product';
+import Product from '../features/product';
 
-const Login = React.lazy(() => import('./../features/Login'));
-const Home = React.lazy(() => import('./../features/Home'));
+const Login = React.lazy(() => import('../features/login'));
+const Dashboard = React.lazy(() => import('../features/dashboard'));
 
 export const ROUTES = [
   {
@@ -17,7 +17,7 @@ export const ADMIN_ROUTES = [
     path: '/',
     name: 'Trang quản trị',
     exact: true,
-    component: Home,
+    component: Dashboard,
   },
   {
     path: '/products',

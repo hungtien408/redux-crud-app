@@ -14,19 +14,18 @@ npm i --save react-router-dom
 
 4. Add UI lib
 
-npm i --save reactstrap
-
-5. Add react select lib
-
-npm i --save react-select
+npm install @material-ui/core
+npm install @material-ui/icons
 
 6. relative import
 
 https://code.visualstudio.com/docs/languages/jsconfig
 
-7. Form use formik lib 
+7. Form use react-hook-form lib
 
-npm i --save formik
+npm i --save react-hook-form@^6.15.6
+npm i --save @hookform/resolvers@^1.3.7
+npm i --save @hookform/error-message
 
 8. Validation form use yup lib
 
@@ -36,5 +35,3 @@ https://github.com/jquense/yup
 9. Add redux toolkit
 
 npm i --save @reduxjs/toolkit react-redux
-
-

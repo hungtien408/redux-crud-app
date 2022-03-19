@@ -1,24 +1,19 @@
-import { Card, CardContent, CircularProgress } from '@material-ui/core';
-import { FastField, Form, Formik } from 'formik';
+import { Button, Card, CardContent } from '@material-ui/core';
 import React from 'react';
+import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { Button, FormGroup } from 'reactstrap';
-import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import InputField from '../../components/form-controls/input-field';
 import { AUTHORIZATION_KEY } from '../../constants/global';
-import InputField from '../../custom-fields/InputField';
 import './styles.scss';
 
 function Login() {
   const history = useHistory();
 
-  const initialValues = {
-    email: '',
-    password: '',
-  };
-
-  const validationSchema = Yup.object().shape({
-    email: Yup.string().required('This field is required.'),
-    password: Yup.string().required('This field is required.'),
+  const validationSchema = yup.object().shape({
+    email: yup.string().required('This field is required.'),
+    password: yup.string().required('This field is required.'),
   });
 
   const handleSubmitForm = (values) => {
@@ -32,42 +27,46 @@ function Login() {
     }
   };
 
+  const form = useForm({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    resolver: yupResolver(validationSchema),
+  });
+
   return (
     <div className="background">
       <div className="login-form">
         <Card>
           <CardContent>
-            {/* Formilk onSubmit have param values */}
-            <Formik
-              initialValues={initialValues}
-              validationSchema={validationSchema}
-              onSubmit={handleSubmitForm}
-            >
-              {(formikProps) => {
-                // do something here
-                const { values, errors, touched, isSubmitting } = formikProps;
-                console.log({ values, errors, touched });
-                return (
-                  <Form>
-                    <FastField name="email" component={InputField} label="Email" />
+            <form onSubmit={form.handleSubmit(handleSubmitForm)}>
+              {/* <FormGroup>
+                <FastField name="email" component={InputField} label="Email" />
+              </FormGroup>
 
-                    <FastField
-                      name="password"
-                      component={InputField}
-                      label="Password"
-                      type="password"
-                    />
+              <FormGroup>
+                <FastField
+                  name="password"
+                  component={InputField}
+                  label="Password"
+                  type="password"
+                />
+              </FormGroup>
 
-                    <FormGroup>
-                      <Button type="submit" color="primary">
-                        {isSubmitting && <CircularProgress size={20} color="inherit" />}
-                        <span style={{ padding: '10px' }}>Login</span>
-                      </Button>
-                    </FormGroup>
-                  </Form>
-                );
-              }}
-            </Formik>
+              <FormGroup>
+                <Button type="submit" color="primary">
+                  {isSubmitting && <CircularProgress size={20} color="inherit" />}
+                  <span style={{ padding: '10px' }}>Login</span>
+                </Button>
+              </FormGroup> */}
+              <InputField name="email" label="Email" form={form} />
+              {/* <InputField name="password" label="Password" type="password" form={form} /> */}
+              <Button type="submit" color="primary">
+                {/* {isSubmitting && <CircularProgress size={20} color="inherit" />} */}
+                <span style={{ padding: '10px' }}>Login</span>
+              </Button>
+            </form>
           </CardContent>
         </Card>
       </div>

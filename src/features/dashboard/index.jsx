@@ -6,9 +6,9 @@ import LocalShippingOutlinedIcon from '@material-ui/icons/LocalShippingOutlined'
 import React from 'react';
 import './styles.scss';
 
-function Home() {
+function Dashboard() {
   return (
-    <div className="home-page">
+    <div className="dashboard">
       <Grid container spacing={2}>
         <Grid item xs={6} md={3}>
           <article className="card-block">
@@ -91,4 +91,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Dashboard;

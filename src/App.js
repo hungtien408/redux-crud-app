@@ -1,10 +1,10 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.scss';
-import { NotFound } from 'http-errors';
+import AdminLayoutRoute from './components/layout/admin-layout';
+import DefaultLayoutRoute from './components/layout/default-layout';
+import NotFound from './components/not-found';
 import { ADMIN_ROUTES, ROUTES } from './constants/route';
-import AdminLayoutRoute from './components/Layout/AdminLayout';
-import DefaultLayoutRoute from './components/Layout/DefaultLayout';
 
 function App() {
   const renderAdminRoutes = () => {

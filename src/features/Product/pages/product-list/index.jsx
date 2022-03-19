@@ -1,11 +1,11 @@
+import { Container } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container } from 'reactstrap';
-import { getProductList } from '../../productSlice';
-import ProductTable from '../../components/ProductTable';
+import ProductTable from '../../components/product-table';
+import { getProductList } from '../../product-slice';
 import './styles.scss';
 
-function ListPage() {
+function ProductList() {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product);
 
@@ -22,4 +22,4 @@ function ListPage() {
   );
 }
 
-export default ListPage;
+export default ProductList;
