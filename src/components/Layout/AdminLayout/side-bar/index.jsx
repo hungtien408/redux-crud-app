@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import './styles.scss';
 import { Drawer } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import React from 'react';
+import './styles.scss';
 
 SideBar.propTypes = {
   showSidebar: PropTypes.bool,

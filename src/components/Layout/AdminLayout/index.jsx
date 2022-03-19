@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { AUTHORIZATION_KEY } from '../../../constants/global';
-import Dashboard from '../../Dashboard';
+import Content from './content';
 import './styles.scss';
 
 AdminLayout.propTypes = {
@@ -28,9 +28,9 @@ function AdminLayout(props) {
       {...remainProps}
       render={(routeProps) =>
         token ? (
-          <Dashboard {...remainProps}>
+          <Content {...remainProps}>
             <NewComponent {...routeProps} />
-          </Dashboard>
+          </Content>
         ) : (
           <Redirect to="/login" />
         )
