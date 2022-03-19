@@ -1,4 +1,5 @@
 import React from 'react';
+import Product from '../features/Product';
 
 const Login = React.lazy(() => import('./../features/Login'));
 const Home = React.lazy(() => import('./../features/Home'));
@@ -19,9 +20,9 @@ export const ADMIN_ROUTES = [
     component: Home,
   },
   {
-    path: '/task-board',
-    name: 'Quản lý công việc',
-    // component: Taskboard,
+    path: '/products',
+    name: 'Sản Phẩm',
+    component: Product,
   },
   {
     name: 'Bán hàng',
