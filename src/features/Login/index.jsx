@@ -1,8 +1,8 @@
-import { Button, Card, CardContent } from '@material-ui/core';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Button, Card, CardContent, CardHeader } from '@material-ui/core';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import InputField from '../../components/form-controls/input-field';
 import { AUTHORIZATION_KEY } from '../../constants/global';
@@ -18,13 +18,13 @@ function Login() {
 
   const handleSubmitForm = (values) => {
     const { email, password } = values;
-    if (email === 'hungtien408@gmail.com' && password === '123123') {
-      // localStorage.setItem(AUTHORIZATION_KEY, AccessToken.Token);
-      // localStorage.setItem(AUTHORIZATION_EXPIRY, moment().add(30, 'minutes'));
-      // localStorage.setItem(AUTHORIZATION_EXPIRY, AccessToken.ExpiresIn);
-      localStorage.setItem(AUTHORIZATION_KEY, values);
-      history.push('/');
-    }
+    if (email === '' || password === '') return;
+
+    // localStorage.setItem(AUTHORIZATION_KEY, AccessToken.Token);
+    // localStorage.setItem(AUTHORIZATION_EXPIRY, moment().add(30, 'minutes'));
+    // localStorage.setItem(AUTHORIZATION_EXPIRY, AccessToken.ExpiresIn);
+    localStorage.setItem(AUTHORIZATION_KEY, values);
+    history.push('/');
   };
 
   const form = useForm({
@@ -39,33 +39,30 @@ function Login() {
     <div className="background">
       <div className="login-form">
         <Card>
-          <CardContent>
+          <CardHeader title={'CRUD'} className="text-center"></CardHeader>
+          <CardContent className="pt-0 pb-2">
             <form onSubmit={form.handleSubmit(handleSubmitForm)}>
-              {/* <FormGroup>
-                <FastField name="email" component={InputField} label="Email" />
-              </FormGroup>
-
-              <FormGroup>
-                <FastField
-                  name="password"
-                  component={InputField}
-                  label="Password"
-                  type="password"
-                />
-              </FormGroup>
-
-              <FormGroup>
-                <Button type="submit" color="primary">
-                  {isSubmitting && <CircularProgress size={20} color="inherit" />}
-                  <span style={{ padding: '10px' }}>Login</span>
+              <InputField
+                name="email"
+                label="Email"
+                variant="outlined"
+                className="mb-3"
+                form={form}
+              />
+              <InputField
+                name="password"
+                label="Password"
+                type="password"
+                variant="outlined"
+                className="mb-3"
+                form={form}
+              />
+              <div className="text-right">
+                <Button type="submit" variant="contained" color="primary" className="mb-3">
+                  {/* {isSubmitting && <CircularProgress size={20} color="inherit" />} */}
+                  Login
                 </Button>
-              </FormGroup> */}
-              <InputField name="email" label="Email" form={form} />
-              {/* <InputField name="password" label="Password" type="password" form={form} /> */}
-              <Button type="submit" color="primary">
-                {/* {isSubmitting && <CircularProgress size={20} color="inherit" />} */}
-                <span style={{ padding: '10px' }}>Login</span>
-              </Button>
+              </div>
             </form>
           </CardContent>
         </Card>

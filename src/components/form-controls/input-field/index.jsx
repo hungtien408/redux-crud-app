@@ -21,9 +21,11 @@ InputField.defaultProps = {
 };
 
 function InputField(props) {
-  const { form, name, type, label, placeholder, disabled } = props;
-  const { errors, formState } = form;
-  const hasError = formState.touched[name] && errors[name];
+  const { form, name, type, label, placeholder, disabled, ...custom } = props;
+  // const { errors, formState } = form;
+  // const hasError = formState.touched[name] && errors[name];
+  const { errors } = form;
+  const hasError = errors[name];
 
   return (
     <Controller
@@ -37,6 +39,8 @@ function InputField(props) {
       disabled={disabled}
       error={!!hasError}
       helperText={errors[name]?.message}
+      size="small"
+      {...custom}
     />
   );
 }
