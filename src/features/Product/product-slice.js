@@ -26,7 +26,11 @@ const product = createSlice({
       _totalRows: 15,
     },
   },
-  reducers: {},
+  reducers: {
+    setFilter: (state, action) => {
+      state.filter = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getProductList.pending, (state, action) => {
       state.loading = true;
@@ -43,5 +47,6 @@ const product = createSlice({
   },
 });
 
-const { reducer: productReducer } = product;
+const { reducer: productReducer, actions } = product;
+export const { setFilter } = actions;
 export default productReducer;
