@@ -17,9 +17,9 @@ function ProductList() {
     dispatch(getProductList(filter));
   }, [dispatch, filter]);
 
-  const onSearchEnter = () => {
-    // eslint-disable-next-line no-console
-    console.log('onSearchEnter');
+  const onSearchEnter = (values) => {
+    const { searchInput } = values;
+    dispatch(setFilter({ ...filter, q: searchInput || undefined }));
   };
 
   const onRefresh = () => {
@@ -34,6 +34,14 @@ function ProductList() {
 
   const handlePageChange = (page) => {
     dispatch(setFilter({ ...filter, _page: page }));
+  };
+
+  const applyFiltered = (column, event) => {
+    if (event.key === 'Enter' || event === '') {
+      const { value } = event.target;
+      const key = typeof value === 'string' ? `${column}_like` : column;
+      dispatch(setFilter({ ...filter, [key]: value || undefined }));
+    }
   };
 
   return (
@@ -57,7 +65,7 @@ function ProductList() {
                   label="Tìm theo Tên"
                   variant="standard"
                   style={{ width: '100%' }}
-                  // onKeyDown={(e) => this.applyFiltered('Name', e)}
+                  onKeyDown={(e) => applyFiltered('name', e)}
                 />
               </TableCell>
               <TableCell align="left">
@@ -67,7 +75,7 @@ function ProductList() {
                   label="Tìm theo Giá"
                   variant="standard"
                   style={{ width: '100%' }}
-                  // onKeyDown={(e) => this.applyFiltered('Address', e)}
+                  onKeyDown={(e) => applyFiltered('price', e)}
                 />
               </TableCell>
             </TableRow>

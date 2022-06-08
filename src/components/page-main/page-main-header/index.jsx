@@ -4,8 +4,10 @@ import CachedRoundedIcon from '@material-ui/icons/CachedRounded';
 import CloudDownloadOutlinedIcon from '@material-ui/icons/CloudDownloadOutlined';
 import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined';
 import LocalBarOutlinedIcon from '@material-ui/icons/LocalBarOutlined';
+import InputField from 'components/form-controls/input-field';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useForm } from 'react-hook-form';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -41,8 +43,7 @@ const useStyles = makeStyles(() => ({
   formControl: {
     display: 'block',
     width: '100%',
-    height: 40,
-    padding: '0 35px',
+    height: '40px',
     fontSize: '1rem',
     fontWeight: 400,
     lineHeight: 1.5,
@@ -50,6 +51,16 @@ const useStyles = makeStyles(() => ({
     backgroundColor: '#fff',
     backgroundClip: 'padding-box',
     border: '1px solid #ced4da',
+    '& input': {
+      height: '24px',
+      padding: '6px 0 6px 35px',
+    },
+    '& ::before': {
+      border: 'none'
+    },
+    '& ::after': {
+      border: 'none'
+    }
   },
   iconSearch: {
     position: 'absolute',
@@ -112,6 +123,13 @@ function PageMainHeader(props) {
     handleImport,
     handleCreate,
   } = props;
+
+  const form = useForm({
+    defaultValues: {
+      searchInput: '',
+    },
+  });
+
   return (
     <div className={classes.root}>
       <Grid container>
@@ -126,13 +144,13 @@ function PageMainHeader(props) {
         <Grid item md={8} className="text-right">
           {handleSearchEnter !== undefined && handleSearchEnter != null && (
             <div className={classes.wrapperSearch}>
-              <form onSubmit={handleSearchEnter}>
+              <form onSubmit={form.handleSubmit(handleSearchEnter)}>
                 <div className={`${classes.searchGroup} input-group-btn`}>
-                  <input
-                    id="stuff"
+                  <InputField
                     name="searchInput"
                     className={classes.formControl}
                     placeholder="Ấn Enter để tìm..."
+                    form={form}
                   />
                   <Icon className={classes.iconSearch}>search</Icon>
                 </div>
