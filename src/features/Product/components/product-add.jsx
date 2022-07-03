@@ -22,7 +22,7 @@ function ProductAdd({ onSubmit = null }) {
   const classes = useStyles();
   const schema = yup.object().shape({
     name: yup.string().required('Vui lòng nhập sản phẩm'),
-    price: yup.number().required('Vui lòng nhập giá'),
+    price: yup.number().positive('Giá phải là một số dương').required('Vui lòng nhập giá'),
   });
 
   const form = useForm({

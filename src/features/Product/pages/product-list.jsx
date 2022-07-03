@@ -1,27 +1,13 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  makeStyles,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TextField,
-} from '@material-ui/core';
+import { Dialog, DialogContent, DialogTitle, IconButton, makeStyles } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import { unwrapResult } from '@reduxjs/toolkit';
 import PageMain from 'components/page-main';
-import Pager from 'components/pager';
-import ScrollableTable from 'components/table/scrollable-table';
+import DataTable from 'components/table';
 import ProductAdd from 'features/product/components/product-add';
 import { createProduct, getProductList, setFilter } from 'features/product/product-slice';
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import ProductTable from '../../components/product-table';
 
 const useStyles = makeStyles((theme) => ({
   closeButton: {
@@ -36,6 +22,22 @@ const useStyles = makeStyles((theme) => ({
 function ProductList() {
   const classes = useStyles();
   const dispatch = useDispatch();
+
+  const displayColumns = [
+    {
+      field: 'name',
+      title: 'Tên',
+      type: 'text',
+      align: 'left',
+    },
+    {
+      field: 'price',
+      title: 'Giá',
+      type: 'number',
+      align: 'left',
+    },
+  ];
+
   const product = useSelector((state) => state.product);
   const { list, filter, pagination } = product;
   const { enqueueSnackbar } = useSnackbar();
@@ -45,12 +47,8 @@ function ProductList() {
     dispatch(getProductList(filter));
   }, [dispatch, filter]);
 
-  const applyFiltered = (column, event) => {
-    if (event.key === 'Enter' || event === '') {
-      const { value } = event.target;
-      const key = typeof value === 'string' ? `${column}_like` : column;
-      dispatch(setFilter({ ...filter, [key]: value || undefined }));
-    }
+  const onFiltered = (key, value) => {
+    dispatch(setFilter({ ...filter, [key]: value || undefined }));
   };
 
   const onSearchEnter = (values) => {
@@ -97,51 +95,12 @@ function ProductList() {
       handleRefresh={onRefresh}
       handleCreate={onCreate}
     >
-      {/* <ProductTable productList={product.list} /> */}
-      <ScrollableTable>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">STT</TableCell>
-              <TableCell align="left">
-                <div>Tên</div>
-                <TextField
-                  id="filterName"
-                  label="Tìm theo Tên"
-                  variant="standard"
-                  style={{ width: '100%' }}
-                  onKeyDown={(e) => applyFiltered('name', e)}
-                />
-              </TableCell>
-              <TableCell align="left">
-                <div>Giá</div>
-                <TextField
-                  id="filterPrice"
-                  label="Tìm theo Giá"
-                  type="number"
-                  variant="standard"
-                  style={{ width: '100%' }}
-                  onKeyDown={(e) => applyFiltered('price', e)}
-                />
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {list.map((row, index) => (
-              <TableRow key={row.id}>
-                <TableCell align="center">{index + 1}</TableCell>
-                <TableCell align="left">{row.name}</TableCell>
-                <TableCell align="left">{'$' + row.price}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </ScrollableTable>
-      <Pager
-        page={pagination._page}
-        total={pagination._totalRows}
-        limit={pagination._limit}
-        changePage={onPageChange}
+      <DataTable
+        list={list}
+        displayColumns={displayColumns}
+        pagination={pagination}
+        handleFiltered={onFiltered}
+        handlePageChange={onPageChange}
       />
       <Dialog
         open={openDialog}

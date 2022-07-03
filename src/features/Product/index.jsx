@@ -1,6 +1,5 @@
-import React from 'react';
+import NotFound from 'components/not-found';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import NotFound from '../../components/not-found';
 import ProductList from './pages/product-list';
 
 function Product() {
