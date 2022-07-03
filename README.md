@@ -35,3 +35,7 @@ https://github.com/jquense/yup
 9. Add redux toolkit
 
 npm i --save @reduxjs/toolkit react-redux
+
+10. Add notistack
+
+npm install notistack@latest-mui-v4

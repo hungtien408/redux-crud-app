@@ -1,15 +1,17 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import productApi from '../../api/product-api';
+import productApi from 'api/product-api';
 
 // async action
-export const getProductList = createAsyncThunk(
-  'product/getProductList',
-  async (params, thunkAPI) => {
-    // thunkAPI.dispatch(): use to dispatch other action
-    const response = await productApi.getAll(params);
-    return response;
-  }
-);
+export const getProductList = createAsyncThunk('product/getList', async (params, thunkAPI) => {
+  // thunkAPI.dispatch(): use to dispatch other action
+  const response = await productApi.getAll(params);
+  return response;
+});
+
+export const createProduct = createAsyncThunk('product/create', async (payload) => {
+  const response = await productApi.post(payload);
+  return response;
+});
 
 const product = createSlice({
   name: 'product',
@@ -18,7 +20,9 @@ const product = createSlice({
     list: [],
     filter: {
       _page: 1,
-      _limit: 15,
+      _limit: 20,
+      _sort: 'createdDate',
+      _order: 'DESC',
     },
     pagination: {
       _page: 1,
