@@ -3,11 +3,11 @@ import { Close } from '@material-ui/icons';
 import { unwrapResult } from '@reduxjs/toolkit';
 import PageMain from 'components/page-main';
 import DataTable from 'components/table';
-import ProductAdd from 'features/product/components/product-add';
-import { createProduct, getProductList, setFilter } from 'features/product/product-slice';
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import ProductAdd from '../components/product-add';
+import { createProduct, getProductList, setFilter } from '../product-slice';
 
 const useStyles = makeStyles((theme) => ({
   closeButton: {

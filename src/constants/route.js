@@ -1,8 +1,8 @@
+import Product from 'features/Product';
 import React from 'react';
-import Product from '../features/product';
 
-const Login = React.lazy(() => import('../features/login'));
-const Dashboard = React.lazy(() => import('../features/dashboard'));
+const Login = React.lazy(() => import('features/Login'));
+const Dashboard = React.lazy(() => import('features/dashboard'));
 
 export const ROUTES = [
   {
