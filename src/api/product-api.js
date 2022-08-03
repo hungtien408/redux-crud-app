@@ -13,6 +13,10 @@ const productApi = {
     const url = '/products';
     return axiosClient.post(url, data);
   },
+  delete: (id) => {
+    const url = `/products/${id}`;
+    return axiosClient.delete(url);
+  },
 };
 
 export default productApi;

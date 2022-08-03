@@ -7,7 +7,7 @@ import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ProductAdd from '../components/product-add';
-import { createProduct, getProductList, setFilter } from '../product-slice';
+import { createProduct, deleteProduct, getProductList, setFilter } from '../product-slice';
 
 const useStyles = makeStyles((theme) => ({
   closeButton: {
@@ -87,6 +87,19 @@ function ProductList() {
     }
   };
 
+  const handleDeleteProduct = async (product) => {
+    try {
+      const { id, name } = product;
+      const action = deleteProduct(id);
+      await dispatch(action);
+
+      enqueueSnackbar(`Xóa ${name} thành công!!!`, { variant: 'success' });
+      onRefresh();
+    } catch (error) {
+      enqueueSnackbar(error.message, { variant: 'error' });
+    }
+  };
+
   return (
     <PageMain
       page="Sản Phẩm"
@@ -101,7 +114,9 @@ function ProductList() {
         pagination={pagination}
         handleFiltered={onFiltered}
         handlePageChange={onPageChange}
+        actionDelete={handleDeleteProduct}
       />
+
       <Dialog
         open={openDialog}
         onClose={handleCloseDialog}

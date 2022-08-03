@@ -13,6 +13,11 @@ export const createProduct = createAsyncThunk('product/create', async (payload) 
   return response;
 });
 
+export const deleteProduct = createAsyncThunk('product/delete', async (id) => {
+  const response = await productApi.delete(id);
+  return response;
+});
+
 const product = createSlice({
   name: 'product',
   initialState: {
