@@ -1,6 +1,7 @@
 import { Dialog, DialogContent, DialogTitle, IconButton, makeStyles } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import { unwrapResult } from '@reduxjs/toolkit';
+import DialogConfirm from 'components/dialog/dialog-confirm';
 import PageMain from 'components/page-main';
 import DataTable from 'components/table';
 import { useSnackbar } from 'notistack';
@@ -42,6 +43,8 @@ function ProductList() {
   const { list, filter, pagination } = product;
   const { enqueueSnackbar } = useSnackbar();
   const [openDialog, setOpenDialog] = useState(false);
+  const [openDialogDelete, setOpenDialogDelete] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState({});
 
   useEffect(() => {
     dispatch(getProductList(filter));
@@ -100,6 +103,20 @@ function ProductList() {
     }
   };
 
+  const handleActionDelete = (product) => {
+    setSelectedProduct(product);
+    setOpenDialogDelete(true);
+  };
+
+  const handleCloseDialogDelete = () => {
+    setOpenDialogDelete(false);
+  };
+
+  const handleAcceptDelete = () => {
+    handleDeleteProduct(selectedProduct);
+    handleCloseDialogDelete();
+  };
+
   return (
     <PageMain
       page="Sản Phẩm"
@@ -114,7 +131,7 @@ function ProductList() {
         pagination={pagination}
         handleFiltered={onFiltered}
         handlePageChange={onPageChange}
-        actionDelete={handleDeleteProduct}
+        actionDelete={handleActionDelete}
       />
 
       <Dialog
@@ -131,6 +148,12 @@ function ProductList() {
           <ProductAdd onSubmit={handleCreateProduct} />
         </DialogContent>
       </Dialog>
+
+      <DialogConfirm
+        isOpen={openDialogDelete}
+        onClose={handleCloseDialogDelete}
+        onAccept={handleAcceptDelete}
+      />
     </PageMain>
   );
 }

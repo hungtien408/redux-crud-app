@@ -8,10 +8,8 @@ import {
   TextField,
 } from '@material-ui/core';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@material-ui/icons';
-import DialogConfirm from 'components/dialog/dialog-confirm';
 import Pager from 'components/pager';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 import ScrollableTable from './scrollable-table';
 
 DataTable.propTypes = {
@@ -33,9 +31,6 @@ function DataTable({
   actionEdit = null,
   actionDelete = null,
 }) {
-  const [openDialogDelete, setOpenDialogDelete] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState({});
-
   const applyFiltered = (column, event) => {
     if (!handleFiltered) return;
 
@@ -52,18 +47,8 @@ function DataTable({
   };
 
   const handleDeleteClick = (product) => {
-    setSelectedProduct(product);
-    setOpenDialogDelete(true);
-  };
-
-  const handleCloseDialogDelete = () => {
-    setOpenDialogDelete(false);
-  };
-
-  const handleAcceptDelete = () => {
     if (!actionDelete) return;
-    actionDelete(selectedProduct);
-    handleCloseDialogDelete();
+    actionDelete(product);
   };
 
   return (
@@ -121,11 +106,6 @@ function DataTable({
         total={pagination._totalRows}
         limit={pagination._limit}
         changePage={pageChange}
-      />
-      <DialogConfirm
-        isOpen={openDialogDelete}
-        onClose={handleCloseDialogDelete}
-        onAccept={handleAcceptDelete}
       />
     </>
   );
