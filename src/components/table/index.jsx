@@ -46,6 +46,11 @@ function DataTable({
     handlePageChange(page);
   };
 
+  const handleEditClick = (product) => {
+    if (!actionEdit) return;
+    actionEdit(product);
+  };
+
   const handleDeleteClick = (product) => {
     if (!actionDelete) return;
     actionDelete(product);
@@ -85,7 +90,7 @@ function DataTable({
                 {(actionEdit || actionDelete) && (
                   <TableCell align="center" width="150px">
                     {actionEdit && (
-                      <IconButton aria-label="edit" onClick={actionEdit}>
+                      <IconButton aria-label="edit" onClick={() => handleEditClick(row)}>
                         <EditIcon fontSize="small" color="primary" />
                       </IconButton>
                     )}

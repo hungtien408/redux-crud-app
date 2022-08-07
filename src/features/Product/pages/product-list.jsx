@@ -7,8 +7,14 @@ import DataTable from 'components/table';
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ProductAdd from '../components/product-add';
-import { createProduct, deleteProduct, getProductList, setFilter } from '../product-slice';
+import ProductForm from '../components/product-form';
+import {
+  createProduct,
+  deleteProduct,
+  getProductList,
+  setFilter,
+  updateProduct,
+} from '../product-slice';
 
 const useStyles = makeStyles((theme) => ({
   closeButton: {
@@ -44,7 +50,8 @@ function ProductList() {
   const { enqueueSnackbar } = useSnackbar();
   const [openDialog, setOpenDialog] = useState(false);
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState({});
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const isEdit = Boolean(selectedProduct);
 
   useEffect(() => {
     dispatch(getProductList(filter));
@@ -64,6 +71,7 @@ function ProductList() {
   };
 
   const onCreate = (e) => {
+    setSelectedProduct(null);
     setOpenDialog(true);
   };
 
@@ -72,18 +80,24 @@ function ProductList() {
   };
 
   const handleCloseDialog = () => {
+    setSelectedProduct(null);
     setOpenDialog(false);
   };
 
-  const handleCreateProduct = async (values) => {
+  const handleSubmitProduct = async (values) => {
     try {
-      const action = createProduct(values);
+      let action = createProduct(values);
+      if (isEdit) {
+        action = updateProduct({ ...values, id: selectedProduct.id });
+      }
       const resultAction = await dispatch(action);
       // unwrapResult dùng để lấy kết quả từ action object nếu success(fulfilled) => return data, fail(rejected) => throw error
       const product = unwrapResult(resultAction);
 
       handleCloseDialog();
-      enqueueSnackbar(`Tạo ${product.name} thành công!!!`, { variant: 'success' });
+      enqueueSnackbar(`${isEdit ? 'Cập nhật' : 'Tạo'} ${product.name} thành công!!!`, {
+        variant: 'success',
+      });
       onRefresh();
     } catch (error) {
       enqueueSnackbar(error.message, { variant: 'error' });
@@ -109,12 +123,18 @@ function ProductList() {
   };
 
   const handleCloseDialogDelete = () => {
+    setSelectedProduct(null);
     setOpenDialogDelete(false);
   };
 
   const handleAcceptDelete = () => {
-    handleDeleteProduct(selectedProduct);
+    if (selectedProduct) handleDeleteProduct(selectedProduct);
     handleCloseDialogDelete();
+  };
+
+  const handleActionEdit = (product) => {
+    setSelectedProduct(product);
+    setOpenDialog(true);
   };
 
   return (
@@ -131,6 +151,7 @@ function ProductList() {
         pagination={pagination}
         handleFiltered={onFiltered}
         handlePageChange={onPageChange}
+        actionEdit={handleActionEdit}
         actionDelete={handleActionDelete}
       />
 
@@ -143,9 +164,11 @@ function ProductList() {
         <IconButton className={classes.closeButton} onClick={handleCloseDialog}>
           <Close />
         </IconButton>
-        <DialogTitle id="form-dialog-title">Thêm mới sản phẩm</DialogTitle>
+        <DialogTitle id="form-dialog-title">
+          {isEdit ? 'Cập nhật sản phẩm' : 'Thêm mới sản phẩm'}
+        </DialogTitle>
         <DialogContent>
-          <ProductAdd onSubmit={handleCreateProduct} />
+          <ProductForm initialValues={selectedProduct} onSubmit={handleSubmitProduct} />
         </DialogContent>
       </Dialog>
 

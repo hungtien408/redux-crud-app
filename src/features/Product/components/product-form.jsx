@@ -14,11 +14,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-ProductAdd.propTypes = {
+ProductForm.propTypes = {
+  initialValues: PropTypes.object,
   onSubmit: PropTypes.func,
 };
 
-function ProductAdd({ onSubmit = null }) {
+function ProductForm({ initialValues = null, onSubmit = null }) {
   const classes = useStyles();
   const schema = yup.object().shape({
     name: yup.string().required('Vui lòng nhập sản phẩm'),
@@ -29,6 +30,7 @@ function ProductAdd({ onSubmit = null }) {
     defaultValues: {
       name: '',
       price: 0,
+      ...initialValues,
     },
     resolver: yupResolver(schema),
   });
@@ -60,4 +62,4 @@ function ProductAdd({ onSubmit = null }) {
   );
 }
 
-export default ProductAdd;
+export default ProductForm;
